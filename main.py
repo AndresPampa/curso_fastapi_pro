@@ -75,14 +75,14 @@ movies: List[Movie] = []
 
 @app.get('/', tags=['Home'])
 def home() -> str:
-    return PlainTextResponse(content='Home')
+    return PlainTextResponse(content='Home', status_code=200)
 
-@app.get('/movies', tags=['Movies'])
+@app.get('/movies', tags=['Movies'])#, status_code=500, response_description='Esta bien rey') #, status_code=200 # -> para documentacion
 def get_movies() -> List[Movie]:
     # return {"hello": "world"}
     # return HTMLResponse('<h1>Hello World! MADAFAKA!</h1>')
     content =  [movie.model_dump() for movie in movies]
-    return JSONResponse(content=content)
+    return JSONResponse(content=content, status_code=200)
 
 
 #parametros de ruta
@@ -90,9 +90,9 @@ def get_movies() -> List[Movie]:
 def get_movie(id:int = Path(gt=0)) -> Movie | dict:
     for movie in movies:
         if movie.id == id:
-            return JSONResponse(content=movie.model_dump())
+            return JSONResponse(content=movie.model_dump(), status_code=200)
     
-    return JSONResponse(content={})
+    return JSONResponse(content={}, status_code=404)
 
 
 #localhost:5000/movies/?category=Accion&year=2020
@@ -101,9 +101,9 @@ def get_movie(id:int = Path(gt=0)) -> Movie | dict:
 def get_movie_by_category(year:int, category:str = Query(min_length=5, max_length=20)) -> Movie | dict:
     for movie in movies:
         if movie.category == category:
-            return JSONResponse(content=movie.model_dump())
+            return JSONResponse(content=movie.model_dump(), status_code=200)
         
-    return JSONResponse(content={})
+    return JSONResponse(content={}, status_code=404)
 
 #Metodo POST
 @app.post('/movies', tags=['Movies'])
@@ -111,7 +111,7 @@ def create_movies(movie: MovieCreate) -> JSONResponse:
     movies.append(movie)
 
     content =  [movie.model_dump() for movie in movies]
-    return JSONResponse(content=content)
+    return JSONResponse(content=content, status_code=200)
     # return RedirectResponse(url='/movies', status_code=303)
 
 
@@ -127,7 +127,7 @@ def update_movie(id:int, movie:MovieUpdate) -> List[Movie]:
             item.category = movie.category
 
     content =  [movie.model_dump() for movie in movies]
-    return JSONResponse(content=content)
+    return JSONResponse(content=content, status_code=200)
 
 
 @app.delete('/movies/{id}', tags=['Movies'])
@@ -136,9 +136,9 @@ def delete_movie(id:int) -> List[Movie]:
         if movie.id == id:
             movies.remove(movie)
         
-            return JSONResponse(content=[movie.model_dump() for movie in movies])
+            return JSONResponse(content=[movie.model_dump() for movie in movies], status_code=200)
 
 
-@app.get('/get_file/', tags=['files'])
-def get_file() -> FileResponse:
-    return FileResponse('file.pdf')
+# @app.get('/get_file/', tags=['files'])
+# def get_file() -> FileResponse:
+#     return FileResponse('file.pdf', status_code=200)
