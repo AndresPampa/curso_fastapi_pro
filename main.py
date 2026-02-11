@@ -63,36 +63,13 @@ class MovieCreate(BaseModel):
 
 movies: List[Movie] = []
 
-# movies = [
-#     {
-#         "id": 1,
-#         "title": "Avatar",
-#         "overview": "En un exuberante planeta llamado Pandora viven los Na'vi, seres que ...",
-#         "year": "2009",
-#         "rating": 7.8,
-#         "category": "Acción"
-#     },
-
-#     {
-#         "id": 2,
-#         "title": "Avatar 2",
-#         "overview": "En un exuberante planeta llamado Pandora viven los Na'vi, seres que ...",
-#         "year": "2029",
-#         "rating": 8.8,
-#         "category": "Acción"
-#     }
-
-# ]
-
 
 @app.get('/', tags=['Home'])
 def home() -> str:
-    return PlainTextResponse(content='Home', status_code=200)
+    return PlainTextResponse(content='HOME', status_code=200)
 
 @app.get('/movies', tags=['Movies'])#, status_code=500, response_description='Esta bien rey') #, status_code=200 # -> para documentacion
 def get_movies() -> List[Movie]:
-    # return {"hello": "world"}
-    # return HTMLResponse('<h1>Hello World! MADAFAKA!</h1>')
     content =  [movie.model_dump() for movie in movies]
     return JSONResponse(content=content, status_code=200)
 
@@ -123,7 +100,7 @@ def create_movies(movie: MovieCreate) -> JSONResponse:
     movies.append(movie)
 
     content =  [movie.model_dump() for movie in movies]
-    return JSONResponse(content=content, status_code=200)
+    return JSONResponse(content=content, status_code=201)
     # return RedirectResponse(url='/movies', status_code=303)
 
 
