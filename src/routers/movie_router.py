@@ -9,7 +9,7 @@ movie_rounter = APIRouter()
 
 @movie_rounter.get('/', tags=['Movies'])#, status_code=500, response_description='Esta bien rey') #, status_code=200 # -> para documentacion
 def get_movies() -> List[Movie]:
-    content =  [movie.model_dump() for movie in movies]
+    content =  [movie.model_dump() for movie in movies] #DESCOMENTAR!
     return JSONResponse(content=content, status_code=200)
 
 #parametros de ruta
