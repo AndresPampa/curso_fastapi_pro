@@ -6,3 +6,6 @@ main_uv.py
 
 /file.pdf
 
+.env
+.venv
+.cursor
