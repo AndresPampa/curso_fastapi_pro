@@ -1,0 +1,21 @@
+#Version
+version: "3"
+
+services:
+#Aca indicamos todos los contenedores
+  fastapi:
+  #Nombre del servicio
+    image: image-fastapi
+    #Indicamos el nombre de la imagen
+    build: .
+    #La va a construir a partir del docker file que encuentra en la misma ubicacion
+    container_name: fastapi-application
+    #Nombre al contenedor
+    ports:
+      -"8000:8000"
+      #Configuracion de los puertos que va a utilizar: cuando intente ingresar al puerto 8000 
+      #de mi maquina host me tome todo lo que se esta ejecutando en el puerto 8000 de mi contenedor
+    volumes:
+      - ./:/app
+      #Agregamos volumenes para modificar archivos que estan en nuestro home y que los monte en el /app de mi imagen docker
+      
